@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import constants from "./../constants";
 import { dbConnection } from "../database/config";
+import { redisConnection } from "../database/config-redis";
 
 class Server {
 
@@ -11,6 +12,7 @@ class Server {
 
         this.paths = {
             products: '/api/v1/products',
+            shopping: '/api/v1/shopping',
         }
 
         // Connect to database
@@ -25,6 +27,7 @@ class Server {
 
     async connectDB(){
         await dbConnection();
+        await redisConnection();
     }
 
     middleWares() {
@@ -42,10 +45,12 @@ class Server {
     routes() {
 
         this.app.use( this.paths.products, require('../routes/products'));
+        this.app.use( this.paths.shopping, require('../routes/shopping'));
     }
 
     listen() {
         this.app.listen( this.port, () => {
+            console.log('====================================');
             console.log(`Running on port ${ this.port }`);
         });        
     }

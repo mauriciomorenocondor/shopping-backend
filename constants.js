@@ -10,6 +10,15 @@ module.exports = {
       ssl: true,
       authSource: "admin",
     },
+    Redis: {
+      settings: {
+        prefix: 'REDIS',
+        host: 'localhost',
+        port: 6379,
+        //password: '****'
+      },
+      keyName: 'test:condorlabs-npm-helpers:counter'
+    },
     Categories : [
       "FOOD", 
       "TECH", 

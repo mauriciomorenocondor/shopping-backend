@@ -1,5 +1,5 @@
-import constnts from "./../constants";
-const mongodb = require("@condor-labs/mongodb")(constnts.Settings);
+import constants from "./../constants";
+const mongodb = require("@condor-labs/mongodb")(constants.Settings);
 
 const dbConnection = async() => {
 
