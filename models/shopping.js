@@ -18,9 +18,7 @@ class Shopping {
     }
 }
 
-export default Shopping;
-
-
+module.exports = Shopping;
 
 // const mongodb = require("@condor-labs/mongodb")();
 

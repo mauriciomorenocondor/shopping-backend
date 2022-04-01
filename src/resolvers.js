@@ -1,6 +1,7 @@
-import Product from "../models/product";
-import constants from "../constants"
-export const resolvers = {
+const Product = require("../models/product");
+const constants = require("../constants");
+
+const resolvers = {
 
     Query : {
         products: async( parent, args ) => {
@@ -30,4 +31,8 @@ export const resolvers = {
         
     },
 
+};
+
+module.exports = {
+    resolvers
 };

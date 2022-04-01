@@ -1,4 +1,4 @@
-import { Product }  from "../models";
+const { Product }= require("../models");
 
 /**
  * Products

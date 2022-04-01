@@ -1,8 +1,8 @@
-import express from "express";
-import cors from "cors";
-import constants from "./../constants";
-import { dbConnection } from "../database/config";
-import { redisConnection } from "../database/config-redis";
+const express = require("express");
+const cors = require("cors");
+const constants = require("./../constants");
+const { dbConnection } = require("../database/config");
+const { redisConnection } = require("../database/config-redis");
 
 class Server {
 
@@ -52,9 +52,11 @@ class Server {
         this.app.listen( this.port, () => {
             console.log('====================================');
             console.log(`Running on port ${ this.port }`);
-        });        
+        });
     }
 
 }
 
-module.exports = Server;
+module.exports = {
+    Server
+};

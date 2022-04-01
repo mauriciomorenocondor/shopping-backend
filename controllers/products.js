@@ -1,6 +1,6 @@
-import { response, request } from "express";
+const { response, request } = require("express");
 
-import Product  from "../models/product";
+const Product = require("../models/product");
 
 const listProducts = async(req = request, res = response) => {
 

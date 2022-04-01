@@ -4,31 +4,31 @@
   "description": "Shopping Car Backend",
   "main": "app.js",
   "scripts": {
-    "test": "jest --coverage",
     "build": "babel src -d dist --source-maps",
-    "start": "nodemon app.js --exec babel-node",
+    "start": "nodemon app.js",
     "serve": "node dist/app.js",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "NODE_ENV=development jest --forceExit --coverage"
   },
   "homepage": "https://github.com/mauriciomorenocondor/shopping-backend#readme",
   "dependencies": {
     "@condor-labs/logger": "^1.1.0",
     "@condor-labs/mongodb": "^1.1.3",
     "@condor-labs/redis": "^1.0.4",
+    "@graphql-tools/schema": "^8.3.6",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "express-graphql": "^0.12.0",
     "express-validator": "^6.14.0",
     "graphql": "^16.3.0",
     "graphql-tools": "^8.2.3",
+    "mongodb-memory-server": "^8.4.2",
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.7",
-    "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.11",
-    "nodemon": "^2.0.15"
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   },
   "repository": {
     "type": "git",

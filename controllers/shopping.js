@@ -1,6 +1,6 @@
-import { response, request } from "express";
+const { response, request } = require("express");
 
-import Product  from "../models/product";
+const Product = require("../models/product");
 const logger = require('@condor-labs/logger');
 const redisHelper = require('../database/config-redis');
 
@@ -9,7 +9,7 @@ const listShoppingCar = async(req = request, res = response) => {
     try {
         await redisHelper.get('products', async (products) => {
             if (products) {
-                res.status(200).json({ products : JSON.parse(products) })
+                res.status(200).json({ data : JSON.parse(products) })
             }
         });
 
@@ -30,9 +30,12 @@ const createShoppingCar = async(req, res = response ) => {
         products,
     }
     
-    await redisHelper.set('products', data)
-    //await redisHelper.set( 'products', data)
-
+    await redisHelper.get('products', async (dataRes) => {
+        if (!dataRes) {
+            await redisHelper.set('products', data)
+        }
+    });
+    
     res.status(201).json(data);
 
 }
@@ -109,10 +112,6 @@ const deleteProduct = async(req, res = response ) => {
     }
 
 }
-
-
-
-
 
 module.exports = {
     createShoppingCar,

@@ -2,16 +2,16 @@
  * api/v1/products
  */
 
-import { Router } from "express";
-import { check } from "express-validator";
-import { graphqlHTTP } from "express-graphql";
-import  schema from "./../src/schema";
+const { Router } = require("express");
+const { check } = require("express-validator");
+const { graphqlHTTP } = require("express-graphql");
+const  schema = require("./../src/schema");
 
-import { validateFields } from "../middlewares";
-import { existProductForCode, noExistProductForCode, categoriesAllowed } from "../helpers/db-validators";
-import { createProduct, editProduct, listProducts } from "../controllers/products";
+const { validateFields } = require("../middlewares");
+const { existProductForCode, noExistProductForCode, categoriesAllowed } = require("../helpers/db-validators");
+const { createProduct, editProduct, listProducts } = require("../controllers/products");
 
-import mongo from "./../constants";
+const mongo = require("./../constants");
 
 const router = Router();
 

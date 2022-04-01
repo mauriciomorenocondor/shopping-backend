@@ -1,6 +1,6 @@
 
-import Server from "./server";
-import Product from "./product";
+const Server = require("./server");
+const Product = require("./product");
 
 module.exports = {
     Server,

@@ -1,4 +1,4 @@
-import { validationResult } from "express-validator";
+const { validationResult } = require("express-validator");
 
 const validateFields = ( req, res, next ) => { // next es la llamada al final si pasa tdo bien
 

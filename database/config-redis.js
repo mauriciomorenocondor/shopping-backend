@@ -1,4 +1,4 @@
-import constants from "./../constants";
+const constants = require("./../constants");
 const { settings, keyName } = constants.Redis;
 const redis = require('@condor-labs/redis')(settings);
 

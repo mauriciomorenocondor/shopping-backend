@@ -2,14 +2,11 @@
  * api/v1/shopping
  */
 
- import { Router } from "express";
- import { check } from "express-validator";
+ const { Router } = require("express");
+ const { check } = require("express-validator");
  
- import { validateFields } from "../middlewares";
- import { existProductForCode, noExistProductForCode, categoriesAllowed } from "../helpers/db-validators";
- import { createShoppingCar, listShoppingCar, insertProduct, deleteProduct } from "../controllers/shopping";
- 
- import mongo from "./../constants";
+ const { validateFields } = require("../middlewares");
+ const { createShoppingCar, listShoppingCar, insertProduct, deleteProduct } = require("../controllers/shopping");
  
  const router = Router();
  
