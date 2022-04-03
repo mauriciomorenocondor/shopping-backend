@@ -3,6 +3,7 @@ const cors = require("cors");
 const constants = require("./../constants");
 const { dbConnection } = require("../database/config");
 const { redisConnection } = require("../database/config-redis");
+const { healthMonitor } = require("@condor-labs/health-middleware");
 
 class Server {
 
@@ -49,6 +50,7 @@ class Server {
     }
 
     listen() {
+        healthMonitor(this.app);
         this.app.listen( this.port, () => {
             console.log('====================================');
             console.log(`Running on port ${ this.port }`);

@@ -1,12 +1,14 @@
 const app =  require("../app");
 const request = require('supertest')
 
-//const redisHelper = require("./../database/config-redis");
+const {sortResult} = require("./../src/resolvers");
  
 describe("Test from shopping car", () => {
-    
-    afterEach(() => {
-        jest.clearAllMocks();
+
+    test("Clear the shopping car", async() => {       
+        const resp = await request(app).delete('/api/v1/shopping/clearShoppingCar')
+        expect(resp.status).toEqual(200);
+  
     });
 
     test("List products in the shopping car", async() => {       
@@ -30,10 +32,21 @@ describe("Test from shopping car", () => {
     test("Insert product in the shopping car", async() => {
         const data = {
             "productId": "623e3971d9ae48401e5cedc4",
-            "quantity": 1
+            "quantity": 2
         }
 
         const resp = await request(app).patch('/api/v1/shopping')
+            .send(data)
+        expect(resp.status).toEqual(200);
+    });
+
+    test("Substrac product in the shopping car", async() => {
+        const data = {
+            "productId": "623e3971d9ae48401e5cedc4",
+            "quantity": 1
+        }
+
+        const resp = await request(app).patch('/api/v1/shopping/subtractProduct')
             .send(data)
         expect(resp.status).toEqual(200);
     });
@@ -102,16 +115,39 @@ describe("Test from shopping car", () => {
   
     });
 
-    test("List a product", async() => {
+    test("List a product, presets default", async() => {
             
         const resp = await request(app).get('/api/v1/products')
             .send({
-                query : "{ products { code name } }",
+                query : "{ products { code: name } }",
             })
             .set("Accept", "application/json")
         expect(resp.status).toEqual(200);
   
     });
+
+    test("List a product", async() => {
+            
+        const resp = await request(app).get('/api/v1/products')
+            .send({
+                query : "{ products(name: \"best\", offset:0, limit:20, sort:\"code\") { code: name } }",
+            })
+            .set("Accept", "application/json")
+        expect(resp.status).toEqual(200);
+  
+    });
+
+    test("Sort result graphql for code", async() => {
+        const code = sortResult('code');
+        const name = sortResult('name');
+        const price = sortResult('price');
+        const category = sortResult('category');
+        expect(code).toEqual({ "code" : "asc"});
+        expect(name).toEqual({ "name" : "asc"});
+        expect(price).toEqual({ "price" : "asc"});
+        expect(category).toEqual({ "category" : "asc"});
+    });
+
 });
   
   

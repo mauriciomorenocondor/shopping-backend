@@ -10,6 +10,8 @@ const listShoppingCar = async(req = request, res = response) => {
         await redisHelper.get('products', async (products) => {
             if (products) {
                 res.status(200).json({ data : JSON.parse(products) })
+            } else {
+                res.json(null)
             }
         });
 
@@ -18,6 +20,13 @@ const listShoppingCar = async(req = request, res = response) => {
         return res.status(500).send(error.message);
     }
 
+}
+
+const clearShoppingCar = async(req = request, res = response) => {
+        
+    await redisHelper.del('products');
+
+    res.json('ok');
 }
 
 const createShoppingCar = async(req, res = response ) => {
@@ -47,7 +56,18 @@ const insertProduct = async(req, res = response ) => {
         const product = await Product.findById(productId);
 
         await redisHelper.get('products', async (dataRes) => {
-            if (dataRes && quantity > 0) {
+            // Check if there is data to insert the new shopping cart
+            if ( !dataRes ) {
+                const data = {
+                    "code": "1",
+                    "totalPrice": 0,
+                    "products": []
+                }
+                await redisHelper.set('products', dataRes);
+                dataRes = JSON.stringify(data);
+            }
+
+            if ( dataRes && quantity > 0 ) {
                 const data = JSON.parse(dataRes);
                 // Add the total price
                 data.totalPrice = data.totalPrice + (product.price * quantity);
@@ -68,7 +88,7 @@ const insertProduct = async(req, res = response ) => {
                 })
             } else {
                 const data = JSON.parse(dataRes);
-                res.json({data})
+                res.json({ data })
             }
         });
 
@@ -92,9 +112,48 @@ const deleteProduct = async(req, res = response ) => {
                 const index = data.products.findIndex( (el) => el.productId === productId );
                 if (index >= 0) {
                     data.totalPrice = data.totalPrice - (product.price * data.products[index].quantity);
-                    data.products.splice(index);
+                    data.products.splice(index, 1);
                 }
 
+                await redisHelper.set('products', data);
+                res.status(200).json({ 
+                    msg: 'Deleted product',
+                    data 
+                })
+            } else {
+                const data = JSON.parse(dataRes);
+                res.json({data})
+            }
+        });
+
+    } catch (error) {
+        logger.error(error);
+        return res.status(500).send(error.message);
+    }
+
+}
+
+const subtractProduct = async(req, res = response ) => {
+
+    try {
+        const { productId, quantity } = req.body;
+        const product = await Product.findById(productId);
+
+        await redisHelper.get('products', async (dataRes) => {
+            if (dataRes && quantity > 0 ) {
+                const data = JSON.parse(dataRes);
+                // Ckeck if the product already exist
+                const index = data.products.findIndex( (el) => el.productId === productId );
+                if (index >= 0) {
+                    data.totalPrice = data.totalPrice - (product.price * quantity);
+                    const totalProducts = data.products[index].quantity - quantity;
+                    data.products[index].quantity = totalProducts;
+                    
+                    // If the new quantity equals zero, remove the product
+                    if ( totalProducts === 0 ) {
+                        data.products.splice(index, 1);
+                    }
+                }
                 await redisHelper.set('products', data);
                 res.status(200).json({ 
                     msg: 'Deleted product',
@@ -118,4 +177,6 @@ module.exports = {
     listShoppingCar,
     insertProduct,
     deleteProduct,
+    subtractProduct,
+    clearShoppingCar,
 }

@@ -2,25 +2,6 @@ const { response, request } = require("express");
 
 const Product = require("../models/product");
 
-const listProducts = async(req = request, res = response) => {
-
-    const { limite = 5, desde = 0 } = req.query;
-    const query = { };
-
-    const [ total, products ] = await Promise.all([
-        Product.countDocuments(query),
-        Product.find(query)
-            .skip( Number( desde ) )
-            .limit(Number( limite ))
-    ]);
-
-    res.json({
-        total,
-        products
-    });
-
-}
-
 const createProduct = async(req, res = response ) => {
 
     const { code, name, ...body } = req.body;
@@ -64,5 +45,4 @@ const editProduct = async(req, res = response ) => {
 module.exports = {
     createProduct,
     editProduct,
-    listProducts
 }

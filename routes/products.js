@@ -9,7 +9,7 @@ const  schema = require("./../src/schema");
 
 const { validateFields } = require("../middlewares");
 const { existProductForCode, noExistProductForCode, categoriesAllowed } = require("../helpers/db-validators");
-const { createProduct, editProduct, listProducts } = require("../controllers/products");
+const { createProduct, editProduct } = require("../controllers/products");
 
 const mongo = require("./../constants");
 
