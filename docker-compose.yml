@@ -1,0 +1,27 @@
+version: "3"
+services:
+  shopping-redis:
+    image: redis
+    container_name: shopping-redis      
+    ports:
+      - 6379:6379
+  shopping-mongo:
+    container_name: shopping-mongo
+    image: mongo
+    environment:
+     MONGO_INITDB_ROOT_USERNAME: root
+     MONGO_INITDB_ROOT_PASSWORD: "pass-root"
+     MONGO_INITDB_DATABASE: "shopping-car"
+    ports:
+      - "27017:27017"
+    volumes:
+     - ~/mongo/data:/data/db
+  shopping-backend:
+    build: .
+    #image: maobikecondor/shopping-car-backend
+    container_name: shopping-backend
+    depends_on:
+      - shopping-redis
+      - shopping-mongo
+    ports:
+      - 3000:3000
