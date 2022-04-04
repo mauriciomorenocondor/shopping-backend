@@ -7,9 +7,10 @@ module.exports = {
       database: "shopping-car",
       //user: "test_user",
       user: "root",
-      password: "pass-root",
       //password: "qAGhyLr4dARdpNFS",
+      password: "pass-root",
       //replicaSet: "atlas-rmw24f-shard-0", // comentar para docker
+      //ssl: true, // false para docker
       ssl: false, // false para docker
       authSource: "admin",
     },

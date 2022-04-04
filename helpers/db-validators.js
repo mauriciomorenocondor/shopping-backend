@@ -3,12 +3,22 @@ const { Product }= require("../models");
 /**
  * Products
  */
- const existProductForCode = async( code ) => {
+
+const existProductForCode = async( code ) => {
      // Verify the code of the product exists
      const existProduct = await Product.findOne( { "code" : code });
 
      if ( existProduct ) {
         throw new Error(`The code ${ code } already exist`);
+    }
+}
+
+const noExistProductForId = async( id ) => {
+     // Verify the id of the product exists
+     const existProduct = await Product.findById( id );
+
+     if ( !existProduct ) {
+        throw new Error(`The product id: ${ id } does not exist`);
     }
 }
 
@@ -37,6 +47,7 @@ const categoriesAllowed = ( collection = '', collections = []) => {
 
 module.exports = {
     existProductForCode,
+    noExistProductForId,
     noExistProductForCode,
     categoriesAllowed,
 }
