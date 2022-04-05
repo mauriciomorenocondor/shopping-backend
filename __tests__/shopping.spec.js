@@ -2,22 +2,10 @@ const app =  require("../app");
 const request = require('supertest')
 
 const {sortResult} = require("./../src/resolvers");
-//const redisHelper = require("./../database/config");
-
-// before(function() {
-//     const matchingKeys = '1234'; 
-//     sinon.stub(redis.prototype, 'scan').yields(null, matchingKeys);
-  
-//     const app = require('./app');
-//     return app.init(); // your init or whatever function to initiate your express app
-// });
 
 describe("Test from shopping car", () => {
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
 
-    test("Clear the shopping car", async() => {
+    it("Clear the shopping car", async() => {
         //jest.spyOn(redisHelper, 'del').mockReturnValue(JSON.stringify('ok'));
         //jest.spyOn(redisHelper, 'deleteRedis').mockReturnValue(true);
 
