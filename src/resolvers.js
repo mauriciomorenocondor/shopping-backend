@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-const constants = require("../constants");
+const constants = require("../conf/config");
 
 const resolvers = {
 

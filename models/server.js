@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const constants = require("./../constants");
+const constants = require("./../conf/config");
 const { dbConnection } = require("../database/config");
 const { redisConnection } = require("../database/config-redis");
 const { healthMonitor } = require("@condor-labs/health-middleware");
