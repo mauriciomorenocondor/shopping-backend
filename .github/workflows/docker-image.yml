@@ -44,7 +44,7 @@ jobs:
           echo "$AWS_EC2_KEY" > private_key && chmod 600 private_key
           ls
           ssh -o StrictHostKeyChecking=no -i private_key $AWS_EC2_USERNAME@$AWS_EC2_PUBLIC_IP '
-            cd /var/www/shopping-car-maobike
+            cd /var/www/mao-shopping-car
             echo "paso 1" 
             sudo git checkout develop
             echo "paso 2" 
