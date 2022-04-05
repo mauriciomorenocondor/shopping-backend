@@ -33,10 +33,10 @@ jobs:
             echo "$AWS_EC2_PEM" > private_key && chmod 600 private_key
             ssh -o StrictHostKeyChecking=no -i private_key ${AWS_EC2_USERNAME}@${AWS_EC2_PUBLIC_IP} '
               cd var/www/mao-shopping-car &&
-              git checkout main &&
-              git fetch --all &&
-              git reset --hard origin/main &&
-              git pull origin main &&
+              sudo git checkout main &&
+              sudo git fetch --all &&
+              sudo git reset --hard origin/main &&
+              sudo git pull origin main &&
               sudo docker-compose down
-              docker-compose up -d --build --force-recreate -d
+              sudo docker-compose up -d --build --force-recreate -d
           '
