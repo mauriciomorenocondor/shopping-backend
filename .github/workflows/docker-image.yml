@@ -44,12 +44,8 @@ jobs:
           ls
           ssh -o StrictHostKeyChecking=no -i private_key $AWS_EC2_USERNAME@$AWS_EC2_PUBLIC_IP '
             cd /var/www/shopping-backend
-            echo "paso 1" 
             sudo git checkout develop
-            echo "paso 2" 
             sudo git pull origin develop
-            echo "paso 3"
             sudo docker-compose down
-            echo "paso 4" 
             sudo docker-compose up --build --force-recreate -d
           '
