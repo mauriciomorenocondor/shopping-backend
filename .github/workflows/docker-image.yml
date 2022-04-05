@@ -27,7 +27,7 @@ jobs:
         env:
           AWS_EC2_KEY: ${{ secrets.AWS_EC2_PEM  }}
           AWS_EC2_PUBLIC_IP: ${{ secrets.AWS_EC2_PUBLIC_IP  }}
-          AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_USERNAME  }}
+          AWS_EC2_USERNAME: ${{ secrets.AWS_EC2_PUBLIC_USERNAME  }}
         run: |
           pwd
           echo "$AWS_EC2_KEY" > private_key && chmod 600 private_key
