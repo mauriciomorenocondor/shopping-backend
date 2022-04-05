@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "babel src -d dist --source-maps",
-    "start": "nodemon app.js",
-    "serve": "node app.js",
+    "start": "NODE_ENV=development nodemon app.js",
+    "serve": "NODE_ENV=production node app.js",
     "clean": "rimraf dist",
     "test": "NODE_ENV=development jest --forceExit --coverage"
   },
