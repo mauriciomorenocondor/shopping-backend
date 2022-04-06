@@ -11,7 +11,7 @@ const { validateFields } = require("../middlewares");
 const { existProductForCode, noExistProductForCode, categoriesAllowed } = require("../helpers/db-validators");
 const { createProduct, editProduct } = require("../controllers/products");
 
-const mongo = require("./../constants");
+const mongo = require("./../conf/config");
 
 const router = Router();
 

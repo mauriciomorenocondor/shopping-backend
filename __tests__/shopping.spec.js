@@ -2,16 +2,20 @@ const app =  require("../app");
 const request = require('supertest')
 
 const {sortResult} = require("./../src/resolvers");
- 
+
 describe("Test from shopping car", () => {
 
-    test("Clear the shopping car", async() => {       
+    it("Clear the shopping car", async() => {
+        //jest.spyOn(redisHelper, 'del').mockReturnValue(JSON.stringify('ok'));
+        //jest.spyOn(redisHelper, 'deleteRedis').mockReturnValue(true);
+
         const resp = await request(app).delete('/api/v1/shopping/clearShoppingCar')
+        //console.log("@@@@@@@", resp);
         expect(resp.status).toEqual(200);
   
     });
 
-    test("List products in the shopping car", async() => {       
+    test("List products in the shopping car", async() => {
         const resp = await request(app).get('/api/v1/shopping')
         expect(resp.status).toEqual(200);
   

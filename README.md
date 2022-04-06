@@ -6,7 +6,7 @@ Shopping car backend, personal project condor labs
 npm i
 
 ## Para inciar con docker
-codke-compose up
+docker-compose up
 ```
     Amazon EC2
 
