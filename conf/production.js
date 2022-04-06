@@ -1,5 +1,5 @@
 module.exports = {
-    Port: 3000,
+    Port: 8080,
     Settings: {
         host: "shopping-mongo",
         port: 27017,
