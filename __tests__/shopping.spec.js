@@ -80,18 +80,18 @@ describe("Test from shopping car", () => {
   
     });
 
-    test("Edit a product", async() => {
+    // test("Edit a product", async() => {
         
-        const data = {
-            "code": "1",
-            "name": "Best Protein Vainilla",
-        }
+    //     const data = {
+    //         "code": "1",
+    //         "name": "Best Protein Vainilla",
+    //     }
             
-        const resp = await request(app).patch('/api/v1/products')
-            .send(data)
-        expect(resp.status).toEqual(200);
+    //     const resp = await request(app).patch('/api/v1/products')
+    //         .send(data)
+    //     expect(resp.status).toEqual(200);
   
-    });
+    // });
 
     test("Error, no exist edit a product", async() => {
         
