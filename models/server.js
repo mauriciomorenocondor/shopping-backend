@@ -4,6 +4,8 @@ const constants = require("./../conf/config");
 const { dbConnection } = require("../database/config");
 const { redisConnection } = require("../database/config-redis");
 const { healthMonitor } = require("@condor-labs/health-middleware");
+const { graphqlHTTP } = require("express-graphql");
+const  schema = require("./../src/schema");
 
 class Server {
 
@@ -12,6 +14,7 @@ class Server {
         this.port = constants.Port;
 
         this.paths = {
+            graphql:  '/api/v1/graphql',
             products: '/api/v1/products',
             shopping: '/api/v1/shopping',
         }
@@ -47,6 +50,11 @@ class Server {
 
         this.app.use( this.paths.products, require('../routes/products'));
         this.app.use( this.paths.shopping, require('../routes/shopping'));
+        this.app.use( this.paths.graphql, graphqlHTTP({
+            graphiql: true,
+            schema : schema,
+        }));
+        
     }
 
     listen() {

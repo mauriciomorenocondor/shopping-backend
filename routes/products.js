@@ -4,8 +4,6 @@
 
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { graphqlHTTP } = require("express-graphql");
-const  schema = require("./../src/schema");
 
 const { validateFields } = require("../middlewares");
 const { existProductForCode, noExistProductForCode, categoriesAllowed } = require("../helpers/db-validators");
@@ -16,10 +14,6 @@ const mongo = require("./../conf/config");
 const router = Router();
 
 //router.get('/', listProducts )
-router.get( '/', graphqlHTTP({
-    schema : schema,
-}));
-
 
 router.post('/',[
     check('code').custom( existProductForCode ),
@@ -33,7 +27,9 @@ router.post('/',[
 ], createProduct );
 
 router.patch('/',[
-    check('code').custom( noExistProductForCode ),
+    check('_id', 'The productId is not a valid mongo Id').isMongoId(),
+    check('_id', 'The productId is required').notEmpty(),
+    check('price', 'The price must be numeric').isNumeric(),
     check('category').custom( el => categoriesAllowed( el, mongo.Categories ) ),
     validateFields
 ], editProduct );

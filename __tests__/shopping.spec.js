@@ -80,18 +80,18 @@ describe("Test from shopping car", () => {
   
     });
 
-    test("Edit a product", async() => {
+    // test("Edit a product", async() => {
         
-        const data = {
-            "code": "1",
-            "name": "Best Protein Vainilla",
-        }
+    //     const data = {
+    //         "code": "1",
+    //         "name": "Best Protein Vainilla",
+    //     }
             
-        const resp = await request(app).patch('/api/v1/products')
-            .send(data)
-        expect(resp.status).toEqual(200);
+    //     const resp = await request(app).patch('/api/v1/products')
+    //         .send(data)
+    //     expect(resp.status).toEqual(200);
   
-    });
+    // });
 
     test("Error, no exist edit a product", async() => {
         
@@ -121,7 +121,7 @@ describe("Test from shopping car", () => {
 
     test("List a product, presets default", async() => {
             
-        const resp = await request(app).get('/api/v1/products')
+        const resp = await request(app).get('/api/v1/graphql')
             .send({
                 query : "{ products { code: name } }",
             })
@@ -132,7 +132,7 @@ describe("Test from shopping car", () => {
 
     test("List a product", async() => {
             
-        const resp = await request(app).get('/api/v1/products')
+        const resp = await request(app).get('/api/v1/graphql')
             .send({
                 query : "{ products(name: \"best\", offset:0, limit:20, sort:\"code\") { code: name } }",
             })
