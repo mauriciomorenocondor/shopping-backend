@@ -22,19 +22,41 @@ const createProduct = async(req, res = response ) => {
 
 const editProduct = async(req, res = response ) => {
 
-    const { code, _id, ...body } = req.body;
-
+    const { productId, code, _id, ...body } = req.body;
     // Save data
     const data = {
+        code,
         ...body
     }
     
-    // Seacrh id of product
-    const resp = await Product.find({ code : code });
-    const uid = resp[0]._id;
+    // Seacrh code of product, if verify is code is change and not exist
+    if (code) {
+        const resp = await Product.find({ _id : _id });
+        if (!resp) {
+            res.status(400).json({ 
+                errors : [{
+                    msg : `The product is not exist`
+                }]
+            });
+            return;
+        }
 
+        if( resp[0].code !== code){
+            // The code is change, verify is not exist the new code
+            const prod = await Product.find({ code : code });
+            if (prod.length > 0) {
+                res.status(400).json({
+                    errors : [{
+                        msg : `The new code ${ code } already exist`
+                    }]
+                });
+                return;
+            }
+        }
+    }
+    
     // Guardar DB
-    const product = await Product.findByIdAndUpdate( uid, data, { new: true });
+    const product = await Product.findByIdAndUpdate( _id, data, { new: true });
 
     res.json(product);
 

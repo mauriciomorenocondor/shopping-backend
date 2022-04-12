@@ -1,6 +1,6 @@
 const { response, request } = require("express");
 
-const Product = require("../models/product");
+const Prod = require("../models/product");
 const logger = require('@condor-labs/logger');
 const redisHelper = require('../database/config-redis');
 
@@ -9,12 +9,18 @@ const listShoppingCar = async(req = request, res = response) => {
     try {
         await redisHelper.get('products', async (products) => {
             if (products) {
-                res.status(200).json({ data : JSON.parse(products) })
+                const data = JSON.parse(products);
+                let dataRes = [];
+                for (let index = 0; index < data.products.length; index++) {
+                    dataRes = await Prod.findById(data.products[index].productId);
+                    data.products[index].name = dataRes.name;
+                    data.products[index].price = dataRes.price;
+                }
+                res.status(200).json({ data : data })
             } else {
                 res.json(null)
             }
         });
-
     } catch (error) {
         logger.error(error);
         return res.status(500).send(error.message);
@@ -53,7 +59,7 @@ const insertProduct = async(req, res = response ) => {
 
     try {
         const { productId, quantity } = req.body;
-        const product = await Product.findById(productId);
+        const product = await Prod.findById(productId);
 
         await redisHelper.get('products', async (dataRes) => {
             // Check if there is data to insert the new shopping cart
@@ -100,10 +106,9 @@ const insertProduct = async(req, res = response ) => {
 }
 
 const deleteProduct = async(req, res = response ) => {
-
     try {
         const { productId } = req.body;
-        const product = await Product.findById(productId);
+        const product = await Prod.findById(productId);
 
         await redisHelper.get('products', async (dataRes) => {
             if (dataRes) {
@@ -137,7 +142,7 @@ const subtractProduct = async(req, res = response ) => {
 
     try {
         const { productId, quantity } = req.body;
-        const product = await Product.findById(productId);
+        const product = await Prod.findById(productId);
 
         await redisHelper.get('products', async (dataRes) => {
             if (dataRes && quantity > 0 ) {
